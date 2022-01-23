@@ -30,7 +30,10 @@ export class MyComponent {
     return (
       <Host>
         <h1>Test Komponente in Stencil</h1>
+        <h2>Live Test Abschnitt</h2>
         <div>Hello, World! I'm {this.getText()}</div>
+        {/*Das ist mein Wetter API URL: {process.env.WEATHER_API_URL}*/}
+
         <h1>Typische Herausforderungen in Webkomponenten</h1>
         <h2>Entkopplung genutzter Webkomponenten</h2>
         <p>Generell 2 Lösungswege</p>
