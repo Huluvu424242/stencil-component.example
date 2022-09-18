@@ -1,0 +1,38 @@
+name: Github CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.13.2]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: build
+        run: |
+          npm install
+          npm run build --if-present
+      - name: run unit tests (*.spec with jest)
+        run: |
+          npm run test:spec
+        env:
+          CI: true
+      - name: run cdc tests (*.pact.ts with pactjs)
+        run: |
+          npm run test:cdc
+        env:
+          CI: true
+      - name: run e2e tests (*.e2e.spec with playwright)
+        run: |
+          npm run test:e2e
+        env:
+          CI: true
