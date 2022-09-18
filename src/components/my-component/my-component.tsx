@@ -1,5 +1,6 @@
 import {Component, Prop, h, Host} from '@stencil/core';
-import {format} from '../../utils/utils';
+import {Endpunkt} from "../../shared/endpunkt";
+import {networkService} from "../../shared/network";
 
 @Component({
   tag: 'my-component',
@@ -7,6 +8,10 @@ import {format} from '../../utils/utils';
   shadow: true,
 })
 export class MyComponent {
+
+  @Prop() weatherApiUrl: string;
+
+
   /**
    * The first name
    */
@@ -22,8 +27,11 @@ export class MyComponent {
    */
   @Prop() last: string;
 
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
+  private async getText(): Promise<string> {
+
+    const apiEndpoint:Endpunkt = new Endpunkt(undefined,undefined,undefined,undefined, this.weatherApiUrl);
+    const response :Response = await networkService.getData(apiEndpoint);
+    return response.text();
   }
 
   render() {
