@@ -27,11 +27,13 @@ export class MyComponent {
    */
   @Prop() last: string;
 
-  private async getText(): Promise<string> {
 
+  text:string;
+
+  public async componentWillLoad(){
     const apiEndpoint:Endpunkt = new Endpunkt(undefined,undefined,undefined,undefined, this.weatherApiUrl);
-    const response :Response = await networkService.getData(apiEndpoint);
-    return response.text();
+    const json = await networkService.getData(apiEndpoint);
+    this.text = JSON.stringify(json);
   }
 
   render() {
@@ -39,7 +41,7 @@ export class MyComponent {
       <Host>
         <h1>Test Komponente in Stencil</h1>
         <h2>Live Test Abschnitt</h2>
-        <div>Hello, World! I'm {this.getText()}</div>
+        <div>Hello, World! I'm {this.text}</div>
         {/*Das ist mein Wetter API URL: {process.env.WEATHER_API_URL}*/}
 
         <h1>Typische Herausforderungen in Webkomponenten</h1>
